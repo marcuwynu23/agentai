@@ -84,50 +84,23 @@ jobs:
           zip -r ../${{ env.BINARY_NAME }}-${{ matrix.os }}-${{ matrix.arch }}.zip ${{ env.BINARY_NAME }}.exe
           cd ..
 
-      - name: Upload artifact (Linux/macOS)
+      - name: Upload Release Asset (Linux/macOS)
         if: matrix.os == 'linux' || matrix.os == 'darwin'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.BINARY_NAME }}-${{ matrix.os }}-${{ matrix.arch }}
-          path: ${{ env.BINARY_NAME }}-${{ matrix.os }}-${{ matrix.arch }}.tar.gz
-
-      - name: Upload artifact (Windows)
-        if: matrix.os == 'windows'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.BINARY_NAME }}-${{ matrix.os }}-${{ matrix.arch }}
-          path: ${{ env.BINARY_NAME }}-${{ matrix.os }}-${{ matrix.arch }}.zip
-
-  release:
-    name: Create Release
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Get version from tag
-        id: tag
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-
-      - name: Prepare release files
-        run: |
-          mkdir -p release
-          find artifacts -type f \( -name "*.tar.gz" -o -name "*.zip" \) -exec cp {} release/ \;
-          echo "Release files prepared:"
-          ls -lh release/
-
-      - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.tag.outputs.VERSION }}
-          name: Release ${{ steps.tag.outputs.VERSION }}
-          files: release/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: ${{ env.BINARY_NAME }}-${{ matrix.os }}-${{ matrix.arch }}
+          files: ${{ env.BINARY_NAME }}-${{ matrix.os }}-${{ matrix.arch }}.tar.gz
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Asset (Windows)
+        if: matrix.os == 'windows'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.VERSION }}
+          name: ${{ env.BINARY_NAME }}-${{ matrix.os }}-${{ matrix.arch }}
+          files: ${{ env.BINARY_NAME }}-${{ matrix.os }}-${{ matrix.arch }}.zip
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
