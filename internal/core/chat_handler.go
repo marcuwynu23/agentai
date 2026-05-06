@@ -55,7 +55,7 @@ func ChatCommand(ctx context.Context, goal string, cfg *config.Config) error {
 		fmt.Println("Generating project name...")
 		projectName, err = aiCore.GenerateProjectName(ctx, goal)
 		if err != nil {
-			projectName = sanitizeProjectName(goal)
+			projectName = SanitizeProjectName(goal)
 		}
 		workspacePath = filepath.Join(basePath, projectName)
 		_ = os.MkdirAll(workspacePath, 0755)

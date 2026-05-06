@@ -126,12 +126,12 @@ func (a *AICore) GenerateProjectName(ctx context.Context, goal string) (string, 
 Return ONLY the project name, nothing else. Examples: "todo-app", "express-api", "node-cli-tool"`, goal)
 	text, err := a.generateContent(ctx, prompt)
 	if err != nil {
-		return sanitizeProjectName(goal), nil
+		return SanitizeProjectName(goal), nil
 	}
-	return sanitizeProjectName(strings.TrimSpace(text)), nil
+	return SanitizeProjectName(strings.TrimSpace(text)), nil
 }
 
-func sanitizeProjectName(s string) string {
+func SanitizeProjectName(s string) string {
 	s = strings.TrimSpace(strings.ToLower(s))
 	s = strings.Trim(s, `'"`)
 	for _, r := range []string{"  ", " ", "\t"} {
