@@ -193,8 +193,7 @@ agentai chat
 - **[LICENSE](LICENSE)** – MIT license information
 
 ### Development Resources
-- **[docs/architecture.md](docs/architecture.md)** – Technical architecture and design decisions
-- **[docs/GUIDE.md](docs/GUIDE.md)** – Developer guide and best practices
+- **[docs/architecture.md](docs/ARCHITECTURE.md)** – Technical architecture and design decisions
 
 ### Community Resources
 - **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)** – Community guidelines and code of conduct
