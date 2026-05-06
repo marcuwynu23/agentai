@@ -19,7 +19,8 @@ A Go command-line tool that acts as an agentic AI code generator with planning, 
 
 2. Clone or navigate to the project
    ```bash
-   cd agentai-go
+   git clone https://github.com/marcuwynu23/agentai.git
+   cd agentai
    ```
 
 3. Build
