@@ -34,3 +34,4 @@ Thumbs.db
 .config/
 # AgentAI config (may contain api_key)
 .agentai/
+*.json
