@@ -89,8 +89,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.tag.outputs.VERSION }}
-          name: ${{ env.BINARY_NAME }}-${{ matrix.os }}-${{ matrix.arch }}
-          files: ${{ env.BINARY_NAME }}-${{ matrix.os }}-${{ matrix.arch }}.tar.gz
+          name: AgentAI-${{ steps.tag.outputs.VERSION }}-${{ matrix.os }}-${{ matrix.arch }}
+          files: ${{ env.BINARY_NAME }}-${{ steps.tag.outputs.VERSION }}-${{ matrix.os }}-${{ matrix.arch }}.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -99,8 +99,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.tag.outputs.VERSION }}
-          name: ${{ env.BINARY_NAME }}-${{ matrix.os }}-${{ matrix.arch }}
-          files: ${{ env.BINARY_NAME }}-${{ matrix.os }}-${{ matrix.arch }}.zip
+          name: AgentAI-${{ steps.tag.outputs.VERSION }}-${{ matrix.os }}-${{ matrix.arch }}
+          files: ${{ env.BINARY_NAME }}-${{ steps.tag.outputs.VERSION }}-${{ matrix.os }}-${{ matrix.arch }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
