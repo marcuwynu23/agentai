@@ -186,9 +186,22 @@ agentai chat
 
 ## Documentation
 
-- USAGE.md – Usage, providers, config, troubleshooting
-- docs/ – Development guide and architecture
+### Core Documentation
+- **[USAGE.md](USAGE.md)** – Complete usage guide, providers, configuration, and troubleshooting
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** – Development guidelines and contribution process
+- **[CHANGELOG.md](CHANGELOG.md)** – Version history and release notes
+- **[LICENSE](LICENSE)** – MIT license information
 
-## License
+### Development Resources
+- **[docs/architecture.md](docs/architecture.md)** – Technical architecture and design decisions
+- **[docs/GUIDE.md](docs/GUIDE.md)** – Developer guide and best practices
 
-MIT
+### Community Resources
+- **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)** – Community guidelines and code of conduct
+- **[SECURITY.md](SECURITY.md)** – Security policies and vulnerability reporting
+- **[RELEASE-NOTES.md](RELEASE-NOTES.md)** – Detailed release information
+
+### Issue Templates
+- **[.github/ISSUE_TEMPLATE/bug_report.md](.github/ISSUE_TEMPLATE/bug_report.md)** – Bug report template
+- **[.github/ISSUE_TEMPLATE/feature_request.md](.github/ISSUE_TEMPLATE/feature_request.md)** – Feature request template
+- **[.github/PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md)** – Pull request template
