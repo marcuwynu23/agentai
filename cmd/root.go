@@ -27,7 +27,7 @@ var (
 var rootCmd = &cobra.Command{
 	Use:   "agentai",
 	Short: "Agentic AI Code Assistant",
-	Long:  "Agentic AI Code Assistant - An intelligent code generation tool using Gemini.",
+	Long:  "Agentic AI Code Assistant - An intelligent code generation tool.",
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		return nil
 	},
