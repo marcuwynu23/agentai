@@ -1,8 +1,10 @@
-# How to Use agentai (Go)
+# Usage Guide
 
-## Quick Start
+A comprehensive guide to using AgentAI, an AI-powered code assistant with a modern Terminal User Interface (TUI).
 
-### 1. Build the CLI
+## Getting Started
+
+### 1. Build the Application
 
 ```bash
 go build -o agentai .
@@ -10,11 +12,11 @@ go build -o agentai .
 # Linux/macOS: ./agentai
 ```
 
-### 2. Configure the AI provider
+### 2. Configure AI Provider
 
-Config is stored in `.agentai/config.json`. Use **local** (current directory) or **global** (home directory).
+Config is stored in `.agentai/config.json`. Use local (current directory) or global (home directory).
 
-**Option A: Config file (recommended)**
+#### Option A: Configuration File (Recommended)
 
 ```bash
 # Local: ./.agentai/config.json (per repository)
@@ -27,7 +29,7 @@ agentai config set provider gemini --global
 agentai config set api_key YOUR_GEMINI_API_TOKEN --global
 ```
 
-**Option B: Environment variables**
+#### Option B: Environment Variables
 
 Create a `.env` file (see `.env.example`) or export:
 
@@ -37,45 +39,55 @@ export GEMINI_API_TOKEN=your-actual-api-token-here
 export GEMINI_MODEL=gemini-2.5-flash
 ```
 
-**Show current config**
+#### View Current Configuration
 
 ```bash
 agentai config show --local    # repo config
 agentai config show --global   # user config
 ```
 
-### 3. Run the tool
+### 3. Launch AgentAI TUI
 
 ```bash
-# After building
-./agentai chat "your goal here"
+# After building, launch the interactive TUI
+./agentai chat
 
 # Windows
-agentai chat "your goal here"
+agentai chat
 ```
 
-**Examples**
+The TUI provides an interactive chat interface where you can:
+- Type your development goals in natural language
+- See real-time progress as AgentAI plans and executes
+- View formatted output with progress indicators
+- Navigate through conversation history
+- Exit cleanly with Ctrl+C
 
-```bash
-agentai chat "create a hello world program"
-agentai chat "create a REST API with Express.js that has a /users endpoint"
-agentai chat "build a todo list application with Node.js"
+#### Example Goals for TUI
+
+Once in the TUI, you can type goals like:
+
+```
+create a hello world program
+create a REST API with Express.js that has a /users endpoint
+build a todo list application with Node.js
 ```
 
 ---
 
-## Supported providers
+## Supported AI Providers
 
-agentai supports four backends (raw `net/http` only; no SDK). Set **provider** and optionally **model** and **base_url**.
+AgentAI supports multiple AI backends using direct HTTP requests (no SDK dependencies). Configure the provider and optionally model and base_url settings.
 
-| Provider       | Default base URL                                              | Config keys              |
-|----------------|---------------------------------------------------------------|--------------------------|
-| **gemini**     | `https://generativelanguage.googleapis.com/v1beta/models`     | `api_key`, `model`, `base_url` |
-| **openai**     | `https://api.openai.com/v1`                                  | `api_key`, `model`, `base_url` |
-| **openrouter** | `https://openrouter.ai/api/v1`                                | `api_key`, `model`, `base_url` |
-| **ollama**     | `http://localhost:11434`                                      | `model`, `base_url` (no key)   |
+| Provider       | Default Base URL                                              | Configuration Keys              |
+|----------------|---------------------------------------------------------------|-------------------------------|
+| gemini         | https://generativelanguage.googleapis.com/v1beta/models       | api_key, model, base_url        |
+| openai         | https://api.openai.com/v1                                     | api_key, model, base_url        |
+| openrouter      | https://openrouter.ai/api/v1                                  | api_key, model, base_url        |
+| ollama          | http://localhost:11434                                        | model, base_url (no key)        |
+| cloudflare      | https://gateway.ai.cloudflare.com/v1                          | api_key, model, base_url        |
 
-Defaults use the URLs above. Override with **base_url** (e.g. custom Ollama host or API proxy).
+The default URLs above are used automatically. Override with the base_url setting for custom endpoints (e.g., remote Ollama host or API proxy).
 
 ### Gemini
 
@@ -114,99 +126,104 @@ agentai config set base_url http://192.168.1.55:11434 --local
 
 ---
 
-## Config file locations
+## Configuration File Locations
 
 - **`--local`**: `<current-directory>/.agentai/config.json` (repository-scoped)
 - **`--global`**: `~/.agentai/config.json` (user-scoped)
 
-If you don’t pass `--local` or `--global`, **show** and **set** use the local path.  
-When running **chat**, config is resolved in order: explicit `--config` path → local `.agentai/config.json` → global `~/.agentai/config.json` → environment variables.
+If neither `--local` nor `--global` is specified, **show** and **set** commands use the local path. When running **chat**, configuration is resolved in this order: explicit `--config` path → local `.agentai/config.json` → global `~/.agentai/config.json` → environment variables.
 
 ---
 
-## Understanding the output
+## Understanding the TUI Interface
 
-When you run `agentai chat "goal"`:
+When you launch `agentai chat`, the TUI displays:
 
-1. **Header** – Agentic AI Code Assistant banner
-2. **Project** – New project gets an AI-generated name and directory; existing project is reused
-3. **Codebase analysis** – File count and any detected issues
-4. **Plan** – Steps (file_creation, code_generation, test_creation, command_execution)
-5. **Execution** – Per-step success/failure
-6. **Completion** – “Plan execution completed!”
+1. **Welcome Banner** – AgentAI logo and interface initialization
+2. **Project Setup** – New projects receive AI-generated names; existing projects are detected
+3. **Codebase Analysis** – File count and structure analysis displayed in real-time
+4. **Planning Phase** – Step-by-step plan shown with dependencies
+5. **Execution Display** – Live progress updates for each step
+6. **Interactive Chat** – Continuous conversation interface with history
 
-Example:
+TUI Session Example:
 
 ```
-🎯 Processing goal: create a simple calculator
+Processing goal: create a simple calculator
 
-╭─────────────────────────────────────╮
-│   🤖 Agentic AI Code Assistant       │
-╰─────────────────────────────────────╯
++---------------------------------------+
+|         AgentAI Code Assistant        |
++---------------------------------------+
 
-✓ Project name: simple-calculator
-╭─ Execution Plan ──────────────────────╮
-│ 1. file_creation: Create package.json
-│ 2. code_generation: Create calculator logic
-│ 3. test_creation: Add tests
-╰─────────────────────────────────────╯
+Project name: simple-calculator
++---------------------------------------+
+|           Execution Plan              |
++---------------------------------------+
+| 1. file_creation: Create package.json     |
+| 2. code_generation: Create calculator.js  |
+| 3. test_creation: Add tests             |
+| 4. command_execution: npm install        |
++---------------------------------------+
 
-[1/3] FILE_CREATION: Create package.json
-  ✓ File created: package.json
+[1/4] FILE_CREATION: Create package.json
+  File created: package.json
 ...
-╭─────────────────────────────────────╮
-│   ✅ Plan execution completed!       │
-╰─────────────────────────────────────╯
+
++---------------------------------------+
+|       Plan execution completed!         |
++---------------------------------------+
 ```
 
 ---
 
-## Project structure after running
+## Generated Project Structure
 
-- **`<project-name>/`** – Generated project (e.g. `simple-calculator/`)
+- **`<project-name>/`** – Generated project directory (e.g., `simple-calculator/`)
 - **`<project-name>/.memory.json`** – Project state and conversation history
-- **`logs/`** – Only if `LOGS_PATH` is set in the environment
+- **`logs/`** – Log files (only created if `LOGS_PATH` environment variable is set)
 
 ---
 
-## Commands reference
+## Command Reference
 
 | Command | Description |
 |---------|-------------|
-| `agentai chat <goal>` | Generate code from a natural-language goal |
-| `agentai config show [--local\|--global]` | Show current AI config |
+| `agentai chat` | Launch interactive TUI for AI-assisted development |
+| `agentai config show [--local\|--global]` | Show current AI configuration |
 | `agentai config set <key> <value> [--local\|--global]` | Set `provider`, `api_key`, `model`, or `base_url` |
-| `agentai version` | Print version, commit, and build date |
+| `agentai version` | Display version, commit, and build information |
 
-**Global flags**
+**Global Flags**
 
-- `--config <path>` – Use a specific config file
-- `-v, --verbose` – Verbose output
+- `--config <path>` – Use a specific configuration file
+- `-v, --verbose` – Enable verbose logging output
 
 ---
 
-## Troubleshooting
+## Troubleshooting Guide
 
-### No API key
+### Missing API Key
 
-Set an API key via config or env:
+Configure an API key using either method:
 
 ```bash
 agentai config set api_key YOUR_KEY --local
 # or: export GEMINI_API_TOKEN=... or OPENAI_API_KEY=...
 ```
 
-### Ollama connection refused
+### Ollama Connection Issues
 
-- Run Ollama locally (`ollama serve`) or set **base_url** to your Ollama host:
-  ```bash
-  agentai config set base_url http://192.168.1.55:11434 --local
-  ```
-- Default is `http://localhost:11434`.
+Start Ollama locally (`ollama serve`) or configure the remote host:
 
-### Wrong provider or model
+```bash
+agentai config set base_url http://192.168.1.55:11434 --local
+```
 
-Inspect and update config:
+Default: `http://localhost:11434`
+
+### Incorrect Provider or Model
+
+Check and update your configuration:
 
 ```bash
 agentai config show --local
@@ -214,38 +231,45 @@ agentai config set provider gemini --local
 agentai config set model gemini-2.5-flash --local
 ```
 
-### Go version
+### Go Version Requirements
 
-Requires Go 1.22 or later. Check with `go version`.
+AgentAI requires Go 1.22 or later. Verify your version with `go version`.
 
 ---
 
-## Example session
+## Complete TUI Session Example
 
 ```bash
 $ agentai config set provider ollama --local
 $ agentai config set model llama3.2 --local
-$ agentai chat "create a simple calculator"
+$ agentai chat
 
-🎯 Processing goal: create a simple calculator
+[AgentAI TUI launches with welcome screen]
 
-╭─────────────────────────────────────╮
-│   🤖 Agentic AI Code Assistant       │
-╰─────────────────────────────────────╯
+> create a simple calculator
 
-✓ Project name: simple-calculator
-╭─ Execution Plan ──────────────────────╮
-│ 1. file_creation: Create package.json
-│ 2. code_generation: Create calculator.js
-│ 3. test_creation: Add tests
-│ 4. command_execution: npm install
-╰─────────────────────────────────────╯
+[Processing in real-time...]
 
-[1/4] FILE_CREATION: Create package.json
-  ✓ File created: package.json
-...
++---------------------------------------+
+|         AGENTAI CODE ASSISTANT       |
++---------------------------------------+
 
-╭─────────────────────────────────────╮
-│   ✅ Plan execution completed!       │
-╰─────────────────────────────────────╯
+Analyzing goal: create a simple calculator
+Generating project structure...
+Project: simple-calculator
+
++---------------------------------------+
+|           EXECUTION PLAN              |
++---------------------------------------+
+| ✓ [1/4] Created package.json         |
+| ✓ [2/4] Generated calculator.js        |
+| ✓ [3/4] Created tests                |
+| ✓ [4/4] Installed dependencies        |
++---------------------------------------+
+
++---------------------------------------+
+|       PLAN EXECUTION COMPLETED!      |
++---------------------------------------+
+
+[Continue typing next goal or type 'exit' to quit]
 ```
